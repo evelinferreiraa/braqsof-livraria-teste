@@ -10,9 +10,9 @@ O repositório contém a implementação do domínio, serviços, repositórios s
 ### Implementar o fluxo computacional do caso de uso Efetuar Pedido de Livro.
 
 Aplicar regras de negócio formais:
-**RN01** — Perfil de cliente e desconto.
-**RN02** — Cálculo de frete por região do Brasil.
-**RN03** — Status do pedido.
+- **RN01** — Perfil de cliente e desconto.
+- **RN02** — Cálculo de frete por região do Brasil.
+- **RN03** — Status do pedido.
 
 ### Desenvolver testes baseados em modelo (MBT) utilizando:
 
