@@ -14,16 +14,14 @@ public class CalculadoraFreteService {
         String estado = endereco.getEstado().toUpperCase();
         String regiao = identificarRegiao(estado);
 
-        switch (regiao) {
-            case "SP":
-                return 0.0;
-            case "SUDESTE":
-                return valorPedido * 0.05;
-            case "OUTRAS_REGIOES":
-                return valorPedido * 0.08;
-            default:
-                throw new IllegalArgumentException("Estado não reconhecido: " + estado);
+        if (regiao.equals("SP")) {
+            return 0.0;
+        } else if (regiao.equals("SUDESTE")) {
+            return valorPedido * 0.05;
+        } else if (regiao.equals("OUTRAS_REGIOES")) {
+            return valorPedido * 0.08;
         }
+        throw new IllegalArgumentException("Estado não reconhecido: " + estado);
     }
 
     /**
