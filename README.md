@@ -16,8 +16,8 @@ Aplicar regras de negócio formais:
 
 ### Desenvolver testes baseados em modelo (MBT) utilizando:
 
-**GFC** – Grafo de Fluxo de Controle
-**GE** – Grafo de Estado
+- **GFC** – Grafo de Fluxo de Controle
+- **GE** – Grafo de Estado
 
 ## Diagrama de Atividades
 
