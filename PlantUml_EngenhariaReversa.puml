@@ -1,0 +1,268 @@
+@startuml
+skinparam style strictuml
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam defaultTextAlignment center
+skinparam ArrowMessageAlignment center
+skinparam classAttributeIconSize 0
+
+left to right direction
+
+' ========================================
+' API (HTTP)
+' ========================================
+package "API (HTTP)" {
+
+  class PedidoController {
+    + criarPedido(dto : PedidoRequestDTO) : ResponseEntity<Pedido>
+  }
+
+  class PedidoRequestDTO {
+    - clienteId : Long
+    - enderecoEntrega : Endereco
+    - itens : List<ItemCarrinho>
+    - formaPagamento : String
+    + getClienteId() : Long
+    + setClienteId(id : Long) : void
+    + getEnderecoEntrega() : Endereco
+    + setEnderecoEntrega(e : Endereco) : void
+    + getItens() : List<ItemCarrinho>
+    + setItens(itens : List<ItemCarrinho>) : void
+    + getFormaPagamento() : String
+    + setFormaPagamento(fp : String) : void
+  }
+}
+
+' ========================================
+' SERVIÇOS (caso de uso + RN01 + RN02)
+' ========================================
+package "Serviços" {
+
+  class PedidoService {
+    - calculadoraDesconto : CalculadoraDescontoService
+    - calculadoraFrete : CalculadoraFreteService
+    - clienteRepository : ClienteRepository
+
+    + processarPedido(clienteId : Long,
+                      enderecoEntrega : Endereco,
+                      itens : List<ItemCarrinho>,
+                      formaPagamento : String) : Pedido
+    + confirmarPedido(pedido : Pedido) : void
+    + cancelarPorPagamentoNaoAutorizado(pedido : Pedido) : void
+    + marcarPedidoComoEntregue(pedido : Pedido) : void
+    - calcularValorItens(itens : List<ItemCarrinho>) : double
+  }
+
+  class CalculadoraDescontoService {
+    + calcularDesconto(cliente : Cliente, valorPedido : double) : double
+    + identificarPerfil(cliente : Cliente) : String
+  }
+
+  class CalculadoraFreteService {
+    + calcularFrete(endereco : Endereco, valorPedido : double) : double
+    - identificarRegiao(estado : String) : String
+  }
+}
+
+' ========================================
+' ENTIDADES DE DOMÍNIO
+' ========================================
+package "Domínio" {
+
+  class Cliente {
+    - id : Long
+    - nome : String
+    - email : String
+    - dataCadastro : LocalDate
+    + getId() : Long
+    + setId(id : Long) : void
+    + getNome() : String
+    + setNome(nome : String) : void
+    + getEmail() : String
+    + setEmail(email : String) : void
+    + getDataCadastro() : LocalDate
+    + setDataCadastro(data : LocalDate) : void
+    + getTempoVinculoEmAnos() : long
+  }
+
+  class Endereco {
+    - logradouro : String
+    - numero : String
+    - bairro : String
+    - cidade : String
+    - estado : String
+    - cep : String
+    + getEstado() : String
+    + setEstado(estado : String) : void
+  }
+
+  class ItemCarrinho {
+    - livroTitulo : String
+    - quantidade : int
+    - precoUnitario : double
+    + getLivroTitulo() : String
+    + setLivroTitulo(titulo : String) : void
+    + getQuantidade() : int
+    + setQuantidade(qtd : int) : void
+    + getPrecoUnitario() : double
+    + setPrecoUnitario(preco : double) : void
+    + getSubtotal() : double
+  }
+
+  class Pedido {
+    - id : Long
+    - cliente : Cliente
+    - enderecoEntrega : Endereco
+    - itens : List<ItemCarrinho>
+    - valorItens : double
+    - desconto : double
+    - frete : double
+    - valorTotal : double
+    - formaPagamento : String
+    - status : String
+    - dataCriacao : LocalDateTime
+    + getCliente() : Cliente
+    + setCliente(c : Cliente) : void
+    + getEnderecoEntrega() : Endereco
+    + setEnderecoEntrega(e : Endereco) : void
+    + getItens() : List<ItemCarrinho>
+    + setItens(itens : List<ItemCarrinho>) : void
+    + getValorItens() : double
+    + setValorItens(v : double) : void
+    + getDesconto() : double
+    + setDesconto(d : double) : void
+    + getFrete() : double
+    + setFrete(f : double) : void
+    + getValorTotal() : double
+    + setValorTotal(v : double) : void
+    + getFormaPagamento() : String
+    + setFormaPagamento(fp : String) : void
+    + getStatus() : String
+    + setStatus(s : String) : void
+    + getDataCriacao() : LocalDateTime
+    + setDataCriacao(dt : LocalDateTime) : void
+  }
+}
+
+' ========================================
+' REPOSITÓRIO
+' ========================================
+package "Repositório" {
+
+  interface ClienteRepository {
+    + findById(id : Long) : Optional<Cliente>
+    + save(cliente : Cliente) : Cliente
+  }
+
+  class ClienteRepositoryInMemory {
+    - banco : Map<Long, Cliente>
+    + ClienteRepositoryInMemory()
+    + findById(id : Long) : Optional<Cliente>
+    + save(cliente : Cliente) : Cliente
+  }
+}
+
+ClienteRepositoryInMemory ..|> ClienteRepository
+
+' ========================================
+' APLICAÇÃO (ENTRY POINTS)
+' ========================================
+package "Aplicação" {
+
+  class Application {
+    + main(args : String[]) : void
+    - testarRN01() : void
+    - testarRN02() : void
+  }
+
+  class Main {
+    + main(args : String[]) : void
+  }
+}
+
+' ========================================
+' TESTES (JUnit)
+' ========================================
+package "Testes (JUnit)" {
+
+  class CalculadoraDescontoServiceTest {
+    + testDescontoPerfilBasico()
+    + testDescontoPerfilBronze()
+    + testDescontoPerfilPrata()
+    + testDescontoPerfilOuro()
+    + testValorLimiteExatamente1Ano()
+    + testValorLimiteExatamente3Anos()
+    + testValorLimiteExatamente5Anos()
+  }
+
+  class CalculadoraFreteServiceTest {
+    + deveCalcularFreteIsentoParaSaoPaulo()
+    + deveCalcularFreteCincoPorCentoParaSudeste()
+    + deveCalcularFreteOitoPorCentoParaOutrasRegioes()
+    + deveLancarExcecaoQuandoEstadoForInvalido()
+  }
+
+  class PedidoServiceTest {
+    + setup()
+    + deveProcessarPedidoPerfilBasicoComFreteSP()
+    + deveProcessarPedidoPerfilBronzeComFreteSudeste()
+    + deveProcessarPedidoPerfilPrataComFreteSudeste()
+    + deveProcessarPedidoPerfilOuroComFreteOutrasRegioes()
+    + deveLancarExcecaoQuandoCarrinhoEstiverVazio()
+  }
+}
+
+' ========================================
+' RELACIONAMENTOS
+' ========================================
+
+' API -> Service / DTO
+PedidoController --> PedidoService : usa
+PedidoController --> PedidoRequestDTO
+PedidoController --> Pedido
+
+PedidoRequestDTO --> Endereco
+PedidoRequestDTO --> ItemCarrinho
+
+' Service -> domínio + repositório
+PedidoService --> CalculadoraDescontoService
+PedidoService --> CalculadoraFreteService
+PedidoService --> ClienteRepository
+PedidoService --> Pedido
+
+ClienteRepository ..> Cliente : «consulta»
+
+' Composição do Pedido
+Pedido "1" o-- "1" Cliente
+Pedido "1" o-- "1" Endereco : enderecoEntrega
+Pedido "1" o-- "*" ItemCarrinho : itens
+
+' RN01 / RN02
+CalculadoraDescontoService ..> Cliente : «RN01»
+CalculadoraFreteService ..> Endereco : «RN02»
+
+' Aplicação usando serviços (demo + boot)
+Application ..> CalculadoraDescontoService
+Application ..> CalculadoraFreteService
+Application ..> Cliente
+Application ..> Endereco
+
+Main ..> CalculadoraDescontoService
+Main ..> CalculadoraFreteService
+Main ..> Cliente
+Main ..> Endereco
+Main ..> ItemCarrinho
+
+' Testes → classes sob teste (setas normalizadas)
+CalculadoraDescontoServiceTest --> CalculadoraDescontoService : «testa RN01»
+CalculadoraFreteServiceTest --> CalculadoraFreteService : «testa RN02»
+PedidoServiceTest --> PedidoService : «testa caso de uso»
+
+' ========================================
+' HIDDEN LINKS PARA AJUSTAR LAYOUT
+' ========================================
+PedidoController -[hidden]-> PedidoService
+PedidoService -[hidden]-> ClienteRepository
+ClienteRepository -[hidden]-> Cliente
+
+@enduml
