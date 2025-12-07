@@ -48,10 +48,13 @@ public class PedidoService {
      * @param formaPagamento   forma de pagamento escolhida
      * @return Pedido com todos os cálculos aplicados
      */
-    public Pedido processarPedido(Long clienteId, Endereco enderecoEntrega,
-                                  List<ItemCarrinho> itens, String formaPagamento) {
 
-        // Validação do fluxo de exceção (2): carrinho vazio
+    public Pedido processarPedido(Long clienteId,
+                                  Endereco enderecoEntrega,
+                                  List<ItemCarrinho> itens,
+                                  String formaPagamento) {
+
+        // Fluxo de exceção (2) – Carrinho vazio
         if (itens == null || itens.isEmpty()) {
             throw new IllegalArgumentException("Carrinho vazio não permitido. Deve haver ao menos um item.");
         }
