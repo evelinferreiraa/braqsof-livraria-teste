@@ -1,6 +1,7 @@
 package br.edu.ifsp.bra.livraria.service;
 
 import br.edu.ifsp.bra.livraria.entity.Endereco;
+import org.springframework.stereotype.Service;
 
 /**
  * Implementação da Regra de Negócio RN02:
@@ -8,6 +9,8 @@ import br.edu.ifsp.bra.livraria.entity.Endereco;
  * - Outros estados do Sudeste: 5%
  * - Outras regiões do Brasil: 8%
  */
+
+@Service
 public class CalculadoraFreteService {
 
     public double calcularFrete(Endereco endereco, double valorPedido) {

@@ -1,6 +1,7 @@
 package br.edu.ifsp.bra.livraria.service;
 
 import br.edu.ifsp.bra.livraria.entity.Cliente;
+import org.springframework.stereotype.Service;
 
 /**
  * Serviço responsável por aplicar a Regra de Negócio RN01.
@@ -16,6 +17,8 @@ import br.edu.ifsp.bra.livraria.entity.Cliente;
  * Essa regra é aplicada durante o fluxo do caso de uso "Efetuar Pedido de Livro",
  * sendo chamada por PedidoService.
  */
+
+@Service
 public class CalculadoraDescontoService {
 
     /**

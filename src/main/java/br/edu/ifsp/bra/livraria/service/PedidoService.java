@@ -2,6 +2,7 @@ package br.edu.ifsp.bra.livraria.service;
 
 import br.edu.ifsp.bra.livraria.entity.*;
 import br.edu.ifsp.bra.livraria.repository.ClienteRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -17,6 +18,8 @@ import java.util.List;
  *  - Outras transições (CONFIRMADO, CANCELADO, ENTREGUE) podem ser aplicadas
  *    via métodos auxiliares deste serviço.
  */
+
+@Service
 public class PedidoService {
 
     private final CalculadoraDescontoService calculadoraDesconto;
@@ -47,6 +50,11 @@ public class PedidoService {
      */
     public Pedido processarPedido(Long clienteId, Endereco enderecoEntrega,
                                   List<ItemCarrinho> itens, String formaPagamento) {
+
+        // Validação do fluxo de exceção (2): carrinho vazio
+        if (itens == null || itens.isEmpty()) {
+            throw new IllegalArgumentException("Carrinho vazio não permitido. Deve haver ao menos um item.");
+        }
 
         // 1. Buscar cliente (simulação de banco de dados usando MOCK)
         Cliente cliente = clienteRepository.findById(clienteId)

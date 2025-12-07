@@ -1,0 +1,409 @@
+### CT01 - Fluxo Principal - Perfil Básico + SP
+# Cenário: 0 <= vínculo < 1 ano (Básico), Estado = SP
+# Saída esperada conceitual: Pedido entregue, sem desconto e sem frete.
+# Na resposta imediata da API: status inicial EM_PROCESSAMENTO (RN03).
+
+POST http://localhost:8080/api/pedidos
+Content-Type: application/json
+
+{
+  "clienteId": 1,
+  "enderecoEntrega": {
+    "logradouro": "Rua A",
+    "numero": "100",
+    "bairro": "Centro",
+    "cidade": "São Paulo",
+    "estado": "SP",
+    "cep": "01000-000"
+  },
+  "itens": [
+    {
+      "livroTitulo": "Teste de Software",
+      "quantidade": 2,
+      "precoUnitario": 100.0
+    }
+  ],
+  "formaPagamento": "CREDITO"
+}
+
+### CT02 - Fluxo Principal - Perfil Básico + Sudeste (ES)
+# Saída esperada conceitual: sem desconto, frete = 5% do valor do pedido.
+
+POST http://localhost:8080/api/pedidos
+Content-Type: application/json
+
+{
+  "clienteId": 1,
+  "enderecoEntrega": {
+    "logradouro": "Rua B",
+    "numero": "200",
+    "bairro": "Centro",
+    "cidade": "Vitória",
+    "estado": "ES",
+    "cep": "29000-000"
+  },
+  "itens": [
+    {
+      "livroTitulo": "Engenharia de Software",
+      "quantidade": 1,
+      "precoUnitario": 200.0
+    }
+  ],
+  "formaPagamento": "PIX"
+}
+
+### CT03 - Fluxo Principal - Perfil Básico + Outras Regiões (SC)
+# Saída esperada conceitual: sem desconto, frete = 8% do valor do pedido.
+
+POST http://localhost:8080/api/pedidos
+Content-Type: application/json
+
+{
+  "clienteId": 1,
+  "enderecoEntrega": {
+    "logradouro": "Rua C",
+    "numero": "300",
+    "bairro": "Centro",
+    "cidade": "Florianópolis",
+    "estado": "SC",
+    "cep": "88000-000"
+  },
+  "itens": [
+    {
+      "livroTitulo": "Arquitetura de Software",
+      "quantidade": 1,
+      "precoUnitario": 250.0
+    }
+  ],
+  "formaPagamento": "CREDITO"
+}
+
+### CT04 - Fluxo Principal - Perfil Bronze + SP
+# 1 <= vínculo < 3 anos (Bronze), Estado = SP.
+# Desconto 3%, frete 0%.
+
+POST http://localhost:8080/api/pedidos
+Content-Type: application/json
+
+{
+  "clienteId": 2,
+  "enderecoEntrega": {
+    "logradouro": "Rua D",
+    "numero": "400",
+    "bairro": "Centro",
+    "cidade": "São Paulo",
+    "estado": "SP",
+    "cep": "01001-000"
+  },
+  "itens": [
+    {
+      "livroTitulo": "Qualidade de Software",
+      "quantidade": 2,
+      "precoUnitario": 150.0
+    }
+  ],
+  "formaPagamento": "CREDITO"
+}
+
+### CT05 - Fluxo Principal - Perfil Bronze + Sudeste (ES)
+# Desconto 3%, frete 5%.
+
+POST http://localhost:8080/api/pedidos
+Content-Type: application/json
+
+{
+  "clienteId": 2,
+  "enderecoEntrega": {
+    "logradouro": "Rua E",
+    "numero": "500",
+    "bairro": "Centro",
+    "cidade": "Vitória",
+    "estado": "ES",
+    "cep": "29001-000"
+  },
+  "itens": [
+    {
+      "livroTitulo": "Testes Automatizados",
+      "quantidade": 3,
+      "precoUnitario": 100.0
+    }
+  ],
+  "formaPagamento": "PIX"
+}
+
+### CT06 - Fluxo Principal - Perfil Bronze + Outras Regiões (SC)
+# Desconto 3%, frete 8%.
+
+POST http://localhost:8080/api/pedidos
+Content-Type: application/json
+
+{
+  "clienteId": 2,
+  "enderecoEntrega": {
+    "logradouro": "Rua F",
+    "numero": "600",
+    "bairro": "Centro",
+    "cidade": "Joinville",
+    "estado": "SC",
+    "cep": "89200-000"
+  },
+  "itens": [
+    {
+      "livroTitulo": "Padrões de Projeto",
+      "quantidade": 1,
+      "precoUnitario": 300.0
+    }
+  ],
+  "formaPagamento": "CREDITO"
+}
+
+### CT07 - Fluxo Principal - Perfil Prata + SP
+# 3 <= vínculo < 5 anos (Prata), Estado = SP.
+# Desconto 5%, frete 0%.
+
+POST http://localhost:8080/api/pedidos
+Content-Type: application/json
+
+{
+  "clienteId": 3,
+  "enderecoEntrega": {
+    "logradouro": "Rua G",
+    "numero": "700",
+    "bairro": "Centro",
+    "cidade": "São Paulo",
+    "estado": "SP",
+    "cep": "01002-000"
+  },
+  "itens": [
+    {
+      "livroTitulo": "Refatoração",
+      "quantidade": 2,
+      "precoUnitario": 200.0
+    }
+  ],
+  "formaPagamento": "CREDITO"
+}
+
+### CT08 - Fluxo Principal - Perfil Prata + Sudeste (ES)
+# Desconto 5%, frete 5%.
+
+POST http://localhost:8080/api/pedidos
+Content-Type: application/json
+
+{
+  "clienteId": 3,
+  "enderecoEntrega": {
+    "logradouro": "Rua H",
+    "numero": "800",
+    "bairro": "Centro",
+    "cidade": "Vitória",
+    "estado": "ES",
+    "cep": "29002-000"
+  },
+  "itens": [
+    {
+      "livroTitulo": "Banco de Dados",
+      "quantidade": 1,
+      "precoUnitario": 400.0
+    }
+  ],
+  "formaPagamento": "PIX"
+}
+
+### CT09 - Fluxo Principal - Perfil Prata + Outras Regiões (SC)
+# Desconto 5%, frete 8%.
+
+POST http://localhost:8080/api/pedidos
+Content-Type: application/json
+
+{
+  "clienteId": 3,
+  "enderecoEntrega": {
+    "logradouro": "Rua I",
+    "numero": "900",
+    "bairro": "Centro",
+    "cidade": "Blumenau",
+    "estado": "SC",
+    "cep": "89000-000"
+  },
+  "itens": [
+    {
+      "livroTitulo": "Programação Java",
+      "quantidade": 2,
+      "precoUnitario": 180.0
+    }
+  ],
+  "formaPagamento": "CREDITO"
+}
+
+### CT10 - Fluxo Principal - Perfil Ouro + SP
+# Vínculo >= 5 anos (Ouro), Estado = SP.
+# Desconto 10%, frete 0%.
+
+POST http://localhost:8080/api/pedidos
+Content-Type: application/json
+
+{
+  "clienteId": 4,
+  "enderecoEntrega": {
+    "logradouro": "Rua J",
+    "numero": "1000",
+    "bairro": "Centro",
+    "cidade": "São Paulo",
+    "estado": "SP",
+    "cep": "01003-000"
+  },
+  "itens": [
+    {
+      "livroTitulo": "Sistemas Distribuídos",
+      "quantidade": 1,
+      "precoUnitario": 500.0
+    }
+  ],
+  "formaPagamento": "CREDITO"
+}
+
+### CT11 - Fluxo Principal - Perfil Ouro + Sudeste (ES)
+# Desconto 10%, frete 5%.
+
+POST http://localhost:8080/api/pedidos
+Content-Type: application/json
+
+{
+  "clienteId": 4,
+  "enderecoEntrega": {
+    "logradouro": "Rua K",
+    "numero": "1100",
+    "bairro": "Centro",
+    "cidade": "Vitória",
+    "estado": "ES",
+    "cep": "29003-000"
+  },
+  "itens": [
+    {
+      "livroTitulo": "DevOps",
+      "quantidade": 3,
+      "precoUnitario": 150.0
+    }
+  ],
+  "formaPagamento": "PIX"
+}
+
+### CT12 - Fluxo Principal - Perfil Ouro + Outras Regiões (SC)
+# Desconto 10%, frete 8%.
+
+POST http://localhost:8080/api/pedidos
+Content-Type: application/json
+
+{
+  "clienteId": 4,
+  "enderecoEntrega": {
+    "logradouro": "Rua L",
+    "numero": "1200",
+    "bairro": "Centro",
+    "cidade": "Chapecó",
+    "estado": "SC",
+    "cep": "89800-000"
+  },
+  "itens": [
+    {
+      "livroTitulo": "Análise de Sistemas",
+      "quantidade": 2,
+      "precoUnitario": 220.0
+    }
+  ],
+  "formaPagamento": "CREDITO"
+}
+
+### CT13 - Fluxo Alternativo (10) - Status Confirmado (após pagamento)
+# Conceito: após criação do pedido, o status muda de EM_PROCESSAMENTO para CONFIRMADO.
+# Aqui assumimos um endpoint secundário (a ser implementado) para confirmar pagamento.
+# 1) Criar o pedido (similar ao CT01):
+
+POST http://localhost:8080/api/pedidos
+Content-Type: application/json
+
+{
+  "clienteId": 1,
+  "enderecoEntrega": {
+    "logradouro": "Rua M",
+    "numero": "1300",
+    "bairro": "Centro",
+    "cidade": "São Paulo",
+    "estado": "SP",
+    "cep": "01004-000"
+  },
+  "itens": [
+    {
+      "livroTitulo": "Livro Pagamento",
+      "quantidade": 1,
+      "precoUnitario": 100.0
+    }
+  ],
+  "formaPagamento": "CREDITO"
+}
+
+### (Passo 2 CT13) - Confirmar Pagamento (exige implementação de endpoint)
+# Supondo que o pedido criado acima devolveu "id": 10
+# PUT http://localhost:8080/api/pedidos/10/confirmar
+# Esperado: status = CONFIRMADO
+
+# PUT http://localhost:8080/api/pedidos/{{idPedido}}/confirmar
+
+
+### CT14 - Fluxo de Exceção (2) - Carrinho vazio
+# Carrinho sem itens: a API deve rejeitar o pedido (IllegalArgumentException no service).
+# Espera-se HTTP 400 (BAD_REQUEST), conforme tratamento no PedidoController.
+
+POST http://localhost:8080/api/pedidos
+Content-Type: application/json
+
+{
+  "clienteId": 1,
+  "enderecoEntrega": {
+    "logradouro": "Rua N",
+    "numero": "1400",
+    "bairro": "Centro",
+    "cidade": "São Paulo",
+    "estado": "SP",
+    "cep": "01005-000"
+  },
+  "itens": [],
+  "formaPagamento": "CREDITO"
+}
+
+### CT15 - Fluxo de Exceção (9) - Pagamento Não Autorizado
+# Conceito: pagamento não autorizado → pedido cancelado após 2 dias.
+# A nível de sistema, isso normalmente seria outro endpoint ou job.
+# Aqui sugerimos um endpoint hipotético para ilustrar o teste de sistema.
+# 1) Criar o pedido (similar ao CT01):
+
+POST http://localhost:8080/api/pedidos
+Content-Type: application/json
+
+{
+  "clienteId": 1,
+  "enderecoEntrega": {
+    "logradouro": "Rua O",
+    "numero": "1500",
+    "bairro": "Centro",
+    "cidade": "São Paulo",
+    "estado": "SP",
+    "cep": "01006-000"
+  },
+  "itens": [
+    {
+      "livroTitulo": "Livro Pagamento NA",
+      "quantidade": 1,
+      "precoUnitario": 150.0
+    }
+  ],
+  "formaPagamento": "CREDITO"
+}
+
+### (Passo 2 CT15) - Marcar Pagamento Não Autorizado / Cancelar Pedido (a ser implementado)
+# Exemplo hipotético:
+# PUT http://localhost:8080/api/pedidos/{{idPedido}}/cancelar-por-pagamento-nao-autorizado
+# Esperado: status = CANCELADO
+
+# PUT http://localhost:8080/api/pedidos/{{idPedido}}/cancelar-por-pagamento-nao-autorizado
