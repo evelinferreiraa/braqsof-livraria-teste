@@ -32,6 +32,27 @@ public class CalculadoraFreteService {
      * Em produção, isso seria uma chamada HTTP a um Sistema de Frete.
      */
     private String identificarRegiao(String estado) {
+
+        // Lista oficial de estados brasileiros
+        String[] estadosBrasil = {
+                "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG",
+                "PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"
+        };
+
+        // Verifica se é um estado válido do Brasil
+        boolean estadoValido = false;
+        for (String uf : estadosBrasil) {
+            if (uf.equals(estado)) {
+                estadoValido = true;
+                break;
+            }
+        }
+
+        if (!estadoValido) {
+            throw new IllegalArgumentException("Estado não reconhecido como brasileiro: " + estado);
+        }
+
+        // SP → frete isento
         if (estado.equals("SP")) {
             return "SP";
         }
